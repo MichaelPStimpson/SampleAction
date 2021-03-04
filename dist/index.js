@@ -28,7 +28,12 @@ var walk = function(dir, done) {
           });
         } else {
           //console.log("file " + file);
-          if (!file.includes(".nvm")) results.push(file);
+          if (
+            !file.includes(".nvm") &&
+            !file.includes(".rustup") &&
+            !file.includes(".cargo")
+          )
+            results.push(file);
           next();
         }
       });
