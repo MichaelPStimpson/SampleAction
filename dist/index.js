@@ -23,7 +23,7 @@ var walk = function(dir, done) {
         //console.log(JSON.stringify(stat));
         if (stat && stat.isDirectory()) {
           walk(file, function(err, res) {
-            //results = results.concat(res);
+            results = results.concat(res);
             next();
           });
         } else {
