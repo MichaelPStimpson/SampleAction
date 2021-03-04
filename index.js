@@ -19,7 +19,7 @@ var walk = function(dir, done) {
             next();
           });
         } else {
-          results.push(file);
+          if (file.startsWith("/home/runner/work/")) results.push(file);
           next();
         }
       });
