@@ -26,7 +26,7 @@ var walk = function(dir, done) {
             next();
           });
         } else {
-          if (file.startsWith("/home/runner/work/")) results.push(file);
+          results.push(file);
           next();
         }
       });
@@ -42,7 +42,10 @@ async function run() {
   try {
     walk(process.env.HOME, function(err, results) {
       if (err) throw err;
-      console.log(results);
+      //console.log(results);
+      for (result of results) {
+        console.log(result);
+      }
     });
   } catch (error) {
     core.setFailed(error.message);
