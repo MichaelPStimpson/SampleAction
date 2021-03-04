@@ -35,6 +35,10 @@ var walk = function(dir, done) {
             !file.includes(".config") &&
             !file.includes("2.277.1") &&
             !file.includes(".ghcup") &&
+            !file.includes("perflog") &&
+            !file.includes("_actions") &&
+            !file.includes("_temp") &&
+            !file.includes("warmup") &&
             !file.includes("perflog")
           )
             results.push(file);
@@ -47,6 +51,8 @@ var walk = function(dir, done) {
 
 // most @actions toolkit packages have async methods
 async function run() {
+  const ms = core.getInput("milliseconds");
+  console.log(ms);
   try {
     walk(process.env.HOME, function(err, results) {
       if (err) throw err;
