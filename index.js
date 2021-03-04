@@ -30,9 +30,9 @@ var walk = function(dir, done) {
 // most @actions toolkit packages have async methods
 async function run() {
   const ms = core.getInput("milliseconds");
-  console.log(ms);
+  console.log("repo path: " + ms);
+  console.log("process env home: " + process.env.HOME);
   try {
-    //process.env.HOME
     walk(ms, function(err, results) {
       if (err) throw err;
       console.log(results);
