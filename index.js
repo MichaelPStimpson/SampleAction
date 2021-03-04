@@ -15,11 +15,14 @@ var walk = function(dir, done) {
       fs.stat(file, function(err, stat) {
         if (stat && stat.isDirectory()) {
           walk(file, function(err, res) {
+            console.log("dir " + res);
             if (res.includes("sfdx-source")) results = results.concat(res);
             next();
           });
         } else {
-          if (res.includes("sfdx-source")) results.push(file);
+          console.log("file " + res);
+          //console.log(file);
+          if (file.includes("sfdx-source")) results.push(file);
           next();
         }
       });

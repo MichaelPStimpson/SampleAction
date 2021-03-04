@@ -4,7 +4,7 @@ node_modules/
 .vscode/
 .idea/
 *.iml
-
+.history/
 # Logs
 logs
 *.log
