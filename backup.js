@@ -45,6 +45,18 @@ async function run() {
       if (err) throw err;
       console.log(results);
     });
+
+    fs.readFile(
+      ms + "/sfdx-source/module/main/objects/Account/Account.object-meta.xml",
+      "utf8",
+      (err, data) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log(data);
+      }
+    );
   } catch (error) {
     core.setFailed(error.message);
   }

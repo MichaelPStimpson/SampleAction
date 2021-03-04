@@ -10,22 +10,40 @@ const glob = __nccwpck_require__(90);
 const fs = __nccwpck_require__(747);
 const path = __nccwpck_require__(622);
 
+var walk = function(dir, done) {
+  var results = [];
+  fs.readdir(dir, function(err, list) {
+    if (err) return done(err);
+    var i = 0;
+    (function next() {
+      var file = list[i++];
+      if (!file) return done(null, results);
+      file = path.resolve(dir, file);
+      fs.stat(file, function(err, stat) {
+        if (stat && stat.isDirectory()) {
+          walk(file, function(err, res) {
+            results = results.concat(res);
+            next();
+          });
+        } else {
+          results.push(file);
+          next();
+        }
+      });
+    })();
+  });
+};
+
 // most @actions toolkit packages have async methods
 async function run() {
   const ms = core.getInput("milliseconds");
   console.log(ms);
   try {
-    fs.readFile(
-      ms + "/sfdx-source/module/main/objects/Account/Account.object-meta.xml",
-      "utf8",
-      (err, data) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        console.log(data);
-      }
-    );
+    //process.env.HOME
+    walk(ms, function(err, results) {
+      if (err) throw err;
+      console.log(results);
+    });
   } catch (error) {
     core.setFailed(error.message);
   }
