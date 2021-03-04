@@ -20,16 +20,15 @@ var walk = function(dir, done) {
       if (!file) return done(null, results);
       file = path.resolve(dir, file);
       fs.stat(file, function(err, stat) {
-        console.log("stat " + stat);
+        //console.log(JSON.stringify(stat));
         if (stat && stat.isDirectory()) {
           walk(file, function(err, res) {
-            console.log("dir " + res);
-            if (res.includes("sfdx-source")) results = results.concat(res);
+            //results = results.concat(res);
             next();
           });
         } else {
-          console.log("file " + file);
-          if (file.includes("sfdx-source")) results.push(file);
+          //console.log("file " + file);
+          if (!file.includes(".nvm")) results.push(file);
           next();
         }
       });
