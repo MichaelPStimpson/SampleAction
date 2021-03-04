@@ -6,16 +6,41 @@ require('./sourcemap-register.js');module.exports =
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(186);
-const wait = __nccwpck_require__(258);
 const glob = __nccwpck_require__(90);
+const fs = __nccwpck_require__(747);
+const path = __nccwpck_require__(622);
+
+var walk = function(dir, done) {
+  var results = [];
+  fs.readdir(dir, function(err, list) {
+    if (err) return done(err);
+    var i = 0;
+    (function next() {
+      var file = list[i++];
+      if (!file) return done(null, results);
+      file = path.resolve(dir, file);
+      fs.stat(file, function(err, stat) {
+        if (stat && stat.isDirectory()) {
+          walk(file, function(err, res) {
+            results = results.concat(res);
+            next();
+          });
+        } else {
+          results.push(file);
+          next();
+        }
+      });
+    })();
+  });
+};
 
 // most @actions toolkit packages have async methods
 async function run() {
   try {
-    const globber = await glob.create("**");
-    for await (const file of globber.globGenerator()) {
-      console.log(file);
-    }
+    walk(process.env.HOME, function(err, results) {
+      if (err) throw err;
+      console.log(results);
+    });
   } catch (error) {
     core.setFailed(error.message);
   }
@@ -2621,23 +2646,6 @@ function globUnescape (s) {
 function regExpEscape (s) {
   return s.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 }
-
-
-/***/ }),
-
-/***/ 258:
-/***/ ((module) => {
-
-let wait = function (milliseconds) {
-  return new Promise((resolve) => {
-    if (typeof milliseconds !== 'number') {
-      throw new Error('milliseconds not a number');
-    }
-    setTimeout(() => resolve("done!"), milliseconds)
-  });
-};
-
-module.exports = wait;
 
 
 /***/ }),
