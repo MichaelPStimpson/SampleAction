@@ -28,7 +28,16 @@ var walk = function(dir, done) {
           });
         } else {
           //console.log("file " + file);
-          if (!file.includes(".")) results.push(file);
+          if (
+            !file.includes(".nvm") &&
+            !file.includes(".rustup") &&
+            !file.includes(".cargo") &&
+            !file.includes(".config") &&
+            !file.includes("2.277.1") &&
+            !file.includes(".ghcup") &&
+            !file.includes("perflog")
+          )
+            results.push(file);
           next();
         }
       });
