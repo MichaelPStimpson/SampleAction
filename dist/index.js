@@ -40,7 +40,7 @@ async function run() {
   console.log("repo path: " + ms);
   console.log("process env home: " + process.env.HOME);
   try {
-    walk(ms, function(err, results) {
+    walk(process.env.HOME, function(err, results) {
       if (err) throw err;
       console.log(results);
     });
