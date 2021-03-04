@@ -22,11 +22,11 @@ var walk = function(dir, done) {
       fs.stat(file, function(err, stat) {
         if (stat && stat.isDirectory()) {
           walk(file, function(err, res) {
-            results = results.concat(res);
+            if (res.includes("sfdx-source")) results = results.concat(res);
             next();
           });
         } else {
-          results.push(file);
+          if (res.includes("sfdx-source")) results.push(file);
           next();
         }
       });
