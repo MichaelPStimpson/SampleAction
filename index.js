@@ -33,12 +33,23 @@ async function run() {
   console.log("repo path: " + ms);
   console.log("process env home: " + process.env.HOME);
   try {
-    walk(process.env.HOME, function(err, results) {
+    walk(ms, function(err, results) {
       if (err) throw err;
-      //console.log(results);
       for (result of results) {
         console.log(result);
       }
+
+      fs.readFile(
+        ms + "/sfdx-source/module/main/objects/Account/Account.object-meta.xml",
+        "utf8",
+        (err, data) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          console.log(data);
+        }
+      );
     });
   } catch (error) {
     core.setFailed(error.message);

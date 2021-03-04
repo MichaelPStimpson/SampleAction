@@ -47,7 +47,7 @@ async function run() {
     });
 
     fs.readFile(
-      ms + "/sfdx-source/module/main/objects/Account/Account.object-meta.xml",
+      fp + "/sfdx-source/module/main/objects/Account/Account.object-meta.xml",
       "utf8",
       (err, data) => {
         if (err) {
